@@ -1,0 +1,250 @@
+/* sidebar.css */
+
+/* General button styles */
+.sidebar button {
+    background-color: #f44336; /* Red background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Add some padding */
+    margin: 10px 0; /* Add margin for spacing */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Button hover effect */
+.sidebar button:hover {
+    background-color: #c62828; /* Darker red on hover */
+}
+
+/* Optional: Style for icons in the button */
+.sidebar button svg {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+/* Sidebar layout adjustments */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+}
+
+.menu-items {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.logout-container {
+  margin-top: auto; /* Pushes the logout button to the bottom */
+  padding: 15px;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  background-color: #000; /* Match sidebar background */
+  z-index: 10; /* Ensure it's above other content */
+}
+
+.logout-btn {
+  width: calc(100% - 30px); /* Full width minus padding */
+  margin: 0 auto; /* Center the button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f44336; /* Red background */
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn svg {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.dropdown-menu {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dropdown-toggle {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-content {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform-origin: top center;
+  transition: 
+    max-height 0.4s ease-out, 
+    opacity 0.4s ease-out;
+}
+
+.dropdown-menu.open .dropdown-content {
+  max-height: 300px;
+  opacity: 1;
+  animation: dropdownReveal 0.4s ease-out;
+}
+
+.dropdown-menu.open .dropdown-content .link {
+  animation: itemSlideIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.dropdown-menu.open .dropdown-content .link:nth-child(1) { 
+  animation-delay: 0.1s; 
+}
+
+.dropdown-menu.open .dropdown-content .link:nth-child(2) { 
+  animation-delay: 0.2s; 
+}
+
+.dropdown-menu.open .dropdown-content .link:nth-child(3) { 
+  animation-delay: 0.3s; 
+}
+
+.dropdown-toggle .chevron-icon {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-toggle:hover .chevron-icon {
+  animation: wiggleIcon 0.5s;
+}
+
+.dropdown-content .link:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: translateX(5px);
+}
+
+@keyframes dropdownReveal {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes itemSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes wiggleIcon {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+.dropdown-content {
+  padding-left: 20px;
+}
+
+.dropdown-content .link {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-content .link .icon {
+  margin-right: 10px;
+}
+
+.sub-link {
+  width: 100%;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+.container{
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+main{
+    width: 100%;
+    padding: 20px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 100vh;
+    flex-grow: 1;
+}
+.sidebar{
+    background-color: #000;
+    color: white;
+    height: 100vh;
+    width: 300px;
+    transition: all 0.5s;
+    top: 0;
+    overflow-y: auto; /* Enable vertical scrolling */
+    position: sticky;
+}
+.top_section{
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+}
+.logo{
+    font-size: 30px;
+
+}
+.bars{
+    display: flex;
+    margin-left: 50px;
+    font-size: 25px;
+}
+.link{
+    display: flex;
+    color: #fff;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+}
+.link:hover{
+    background-color: lightskyblue;
+    color: #000;
+    transition: all 0.5s;
+}
+.active{
+    background-color: lightskyblue;
+    color: #000;
+}
+.icon, .link_text{
+    font-size: 20px;
+
+}

@@ -1,0 +1,294 @@
+/* Ultra-Modern Header Design System */
+:root {
+  /* Advanced Color Palette */
+  --color-primary: #3498db;
+  --color-secondary: #2ecc71;
+  --color-danger: #e74c3c;
+  --color-text-dark: #2c3e50;
+  --color-text-light: #ffffff;
+  --color-background: #f4f6f7;
+  
+  /* Sophisticated Shadows */
+  --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.1);
+  --shadow-intense: 0 15px 35px rgba(0, 0, 0, 0.15);
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Refined Color Palette */
+  --color-logout-primary: #e74c3c;
+  --color-logout-secondary: #c0392b;
+  --color-logout-text: #ffffff;
+  
+  /* Sophisticated Shadows */
+  --shadow-logout-light: 0 4px 6px rgba(231, 76, 60, 0.1);
+  --shadow-logout-medium: 0 8px 15px rgba(231, 76, 60, 0.2);
+  --shadow-logout-intense: 0 12px 24px rgba(231, 76, 60, 0.3);
+  
+  /* Light and Dark Mode Color System */
+  --light-primary-bg: #ffffff;
+  --light-secondary-bg: #f4f6f7;
+  --light-text-primary: #2c3e50;
+  --light-text-secondary: #34495e;
+  --light-border-color: rgba(0, 0, 0, 0.1);
+  
+  --dark-primary-bg: #121212;
+  --dark-secondary-bg: #1e1e1e;
+  --dark-text-primary: #e0e0e0;
+  --dark-text-secondary: #b0b0b0;
+  --dark-border-color: rgba(255, 255, 255, 0.1);
+  
+  --logout-light-bg: #e74c3c;
+  --logout-light-hover: #c0392b;
+  --logout-dark-bg: #ff5252;
+  --logout-dark-hover: #ff1744;
+}
+
+/* Global Theme Variables */
+body {
+  /* Default to Light Mode */
+  --bg-primary: var(--light-primary-bg);
+  --bg-secondary: var(--light-secondary-bg);
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --border-color: var(--light-border-color);
+  --logout-bg: var(--logout-light-bg);
+  --logout-hover: var(--logout-light-hover);
+}
+
+/* Dark Mode Selector */
+body.dark-mode {
+  --bg-primary: var(--dark-primary-bg);
+  --bg-secondary: var(--dark-secondary-bg);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --border-color: var(--dark-border-color);
+  --logout-bg: var(--logout-dark-bg);
+  --logout-hover: var(--logout-dark-hover);
+}
+
+/* Global Header Styling */
+.global-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(
+    135deg, 
+    var(--bg-primary) 0%, 
+    var(--bg-secondary) 100%
+  );
+  backdrop-filter: blur(15px);
+  box-shadow: var(--shadow-subtle);
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 15px 24px;
+}
+
+/* Advanced Header Title */
+.header-title {
+  font-family: var(--font-primary);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  
+  /* Innovative Text Effect */
+  background: linear-gradient(
+    45deg, 
+    var(--color-primary) 0%, 
+    var(--color-secondary) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  /* Advanced Typography */
+  letter-spacing: -1px;
+  text-transform: capitalize;
+  
+  /* Sophisticated Animations */
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  
+  /* Hover and Interactive States */
+  transition: 
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    letter-spacing 0.3s ease,
+    color 0.3s ease;
+}
+
+.header-title::before {
+  content: '✦';
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  color: var(--color-primary);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.header-title:hover {
+  transform: scale(1.03);
+  letter-spacing: -0.5px;
+}
+
+.header-title:hover::before {
+  left: -30px;
+  opacity: 0.7;
+  transform: translateY(-50%) rotate(360deg);
+}
+
+/* Simple Logout Button Design */
+.logout-btn {
+  /* Basic Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Clean Typography */
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  /* Theme-Aware Styling */
+  background-color: var(--logout-bg);
+  color: white;
+  
+  /* Comfortable Sizing */
+  padding: 10px 20px;
+  border-radius: 8px;
+  
+  /* Soft Shadow with Theme Awareness */
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 0 0 1px var(--border-color);
+  
+  /* Smooth Transitions */
+  transition: 
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+  
+  /* Reset Browser Defaults */
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Hover State */
+.logout-btn:hover {
+  background-color: var(--logout-hover);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 8px rgba(0, 0, 0, 0.15),
+    0 0 0 1px var(--border-color);
+}
+
+/* Icon Styling */
+.logout-btn svg {
+  margin-right: 8px;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-title {
+    font-size: 22px;
+  }
+  
+  .logout-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  .logout-btn svg {
+    margin-right: 6px;
+    font-size: 14px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .header-title,
+  .logout-btn,
+  .global-header {
+    transition: none;
+  }
+}
+
+/* Prefers Color Scheme Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    --bg-primary: var(--dark-primary-bg);
+    --bg-secondary: var(--dark-secondary-bg);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --border-color: var(--dark-border-color);
+    --logout-bg: var(--logout-dark-bg);
+    --logout-hover: var(--logout-dark-hover);
+  }
+}
+
+/* Pulse Animation for Subtle Interaction */
+@keyframes pulse {
+  0% {
+    transform: translateY(-5px) scale(1.05);
+  }
+  100% {
+    transform: translateY(-3px) scale(1.03);
+  }
+}
+
+/* Theme Toggle Button Styling */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Smooth Transitions */
+  transition: 
+    color 0.3s ease,
+    transform 0.2s ease;
+  
+  /* Accessibility and Interaction */
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.theme-toggle:hover {
+  color: var(--logout-bg);
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(1.1) rotate(15deg);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .theme-toggle {
+    font-size: 18px;
+    padding: 6px;
+  }
+}

@@ -1,0 +1,345 @@
+/* Root Variables for Consistent Theming */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --light-bg: #f8f9fa;
+  --text-dark: #343a40;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+}
+
+/* Form Container */
+.property-form {
+  width: 900px; /* Slightly wider for better readability */
+  margin: 40px auto; /* More vertical spacing */
+  padding: 30px;
+  background-color: white; /* Changed from light-bg for better contrast */
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.property-form:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.property-form h2 {
+  text-align: center;
+  font-size: 28px;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Property Form H2 Styling */
+.property-form h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 24px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.property-form h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary-color), #0056b3);
+  border-radius: 2px;
+}
+
+/* Responsive H2 Adjustments */
+@media (max-width: 768px) {
+  .property-form h2 {
+    font-size: 20px;
+  }
+}
+
+/* Top Section of Property Form Module */
+.property-form .form-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.property-form .form-top h2 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.property-form .form-top .form-close {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.property-form .form-top .form-close:hover {
+  color: #dc3545;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .property-form .form-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .property-form .form-top h2 {
+    font-size: 20px;
+  }
+}
+
+/* Form Groups with Enhanced Styling */
+.form-group {
+  margin-bottom: 25px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--text-dark);
+  transition: color 0.3s ease;
+  text-align: left;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+/* Specific Enhancements for Different Input Types */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group textarea {
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 300px;
+  line-height: 1.6;
+}
+
+/* Dropdown Styling */
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23007bff'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 20px;
+  cursor: pointer;
+  font-weight: bold !important;
+  font-size: 16px;
+}
+
+/* Bold styling for dropdown list items only */
+.property-form select option {
+  font-weight: bold !important;
+  font-size: 20px;
+}
+
+/* Placeholder Styling */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #999;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* Validation and Error States */
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Action Buttons */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 15px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-cancel {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #e2e6ea;
+}
+
+.btn-cancel:hover {
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn-cancel:active {
+  background-color: #dae0e5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.btn-save {
+  background-color: var(--primary-color);
+  color: white;
+  background: linear-gradient(135deg, var(--primary-color), #0056b3);
+}
+
+.btn-save:hover {
+  background: linear-gradient(135deg, #0056b3, var(--primary-color));
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-save:active {
+  background: linear-gradient(135deg, var(--primary-color), #0056b3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+/* Responsive Button Styles */
+@media (max-width: 576px) {
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .property-form {
+    max-width: 95%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .property-form h2 {
+    font-size: 24px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+/* Subtle Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.property-form {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Input Row Styling */
+.form-row {
+  display: flex;
+  flex-direction: column; /* Change from row to column */
+  gap: 15px; /* Maintain spacing between inputs */
+  margin-bottom: 20px;
+}
+
+.form-row > * {
+  width: 100%; /* Make inputs full width */
+}
+
+/* Specific styling for province and property type */
+
+
+.property-form .province-name {
+  margin-bottom: 15px;
+}
+
+.property-form .property-type {
+  margin-top: 10px;
+}
+
+/* Existing global bold text styling */
+
+
+.property-form h2 {
+  font-weight: bold !important;
+  font-size: 28px;
+  color: var(--primary-color);
+}

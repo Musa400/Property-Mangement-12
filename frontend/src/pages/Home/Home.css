@@ -1,0 +1,409 @@
+.home-container {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Modern Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  text-align: center;
+  padding: 8rem 2rem;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+  background: linear-gradient(45deg, white, rgba(255,255,255,0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.btn {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+  background-color: white;
+  color: #2575fc;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+}
+
+.features-section {
+  display: flex;
+  justify-content: space-around;
+  padding: 4rem 2rem;
+  background-color: #f4f7fa;
+}
+
+.feature {
+  text-align: center;
+  max-width: 300px;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: #2575fc;
+  margin-bottom: 1rem;
+}
+
+.management-section {
+  padding: 4rem 2rem;
+  background-color: #f4f7fa;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+.management-section h2 {
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 2.5rem;
+}
+
+/* Responsive Management Cards */
+.management-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+}
+
+.management-card {
+  background-color: white;
+  border-top: 6px solid transparent;
+  border-radius: 12px;
+  padding: 2rem;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.4s ease;
+}
+
+.management-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+.management-card-icon {
+  font-size: 3rem;
+  margin-right: 1.5rem;
+  opacity: 0.8;
+}
+
+.management-card-content {
+  flex-grow: 1;
+}
+
+.management-card-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.management-card-content p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.management-card-arrow {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s ease;
+  color: #999;
+}
+
+.management-card:hover .management-card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cta-section {
+  background-color: #2575fc;
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.btn-cta {
+  background-color: white;
+  color: #2575fc;
+  margin-top: 1rem;
+}
+
+/* Navigation Styles */
+.home-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-brand .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2575fc;
+  text-decoration: none;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-item {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+}
+
+.login-btn {
+  background-color: transparent;
+  border: 2px solid #2575fc;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: white;
+  color: black !important;
+}
+
+.register-btn {
+  background-color: white;
+  color: white !important;
+  transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #1a5aff;
+}
+
+.navbar-toggle {
+  display: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #2575fc;
+}
+
+@media screen and (max-width: 1024px) {
+  .management-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .management-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .navbar-menu.active {
+    display: flex;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-item {
+    margin: 1rem 0;
+    font-size: 1.5rem;
+  }
+}
+
+/* Smooth Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.features-section {
+  animation: fadeIn 1s ease-out;
+}
+
+/* Footer Styles */
+.home-footer {
+  background-color: #1a2238;
+  color: #f4f7fa;
+  padding: 4rem 2rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  margin-bottom: 1.5rem;
+  color: white;
+  font-weight: 600;
+}
+
+.footer-section.about p {
+  margin-bottom: 1.5rem;
+  color: rgba(244, 247, 250, 0.7);
+  line-height: 1.6;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon {
+  color: white;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #2575fc;
+}
+
+.footer-section.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section.links ul li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-section.links ul li a {
+  color: rgba(244, 247, 250, 0.7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section.links ul li a:hover {
+  color: white;
+}
+
+.footer-section.contact .contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.footer-section.contact .contact-icon {
+  margin-right: 1rem;
+  color: #2575fc;
+  font-size: 1.2rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(244, 247, 250, 0.1);
+  margin-top: 2rem;
+  color: rgba(244, 247, 250, 0.5);
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-section.contact .contact-item {
+    justify-content: center;
+  }
+}

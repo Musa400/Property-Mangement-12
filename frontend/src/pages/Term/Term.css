@@ -1,0 +1,142 @@
+.terms-container {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f7fa;
+}
+
+.terms-hero {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  text-align: center;
+  padding: 8rem 2rem;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+
+.terms-hero-content h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -2px;
+  background: linear-gradient(45deg, white, rgba(255,255,255,0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.terms-hero-content p {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.terms-overview,
+.terms-key-points,
+.terms-details,
+.terms-warning,
+.terms-contact {
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.terms-overview h2,
+.terms-key-points h2,
+.terms-details h2,
+.terms-warning h2,
+.terms-contact h2 {
+  color: #2575fc;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.terms-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+
+.terms-card:hover {
+  transform: translateY(-10px);
+}
+
+.terms-icon {
+  font-size: 3.5rem;
+  color: #2575fc;
+  margin-bottom: 1.5rem;
+}
+
+.terms-details .terms-section {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.terms-details ul {
+  list-style-type: disc;
+  padding-left: 2rem;
+}
+
+.terms-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 15px;
+}
+
+.warning-icon {
+  font-size: 4rem;
+  color: #ffc107;
+  margin-bottom: 1.5rem;
+}
+
+.terms-contact {
+  text-align: center;
+  background-color: #f4f7fa;
+  padding: 3rem 2rem;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: 2px solid #2575fc;
+  color: #2575fc;
+  padding: 10px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.back-button:hover {
+  background-color: #2575fc;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .terms-hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .terms-hero-content p {
+    font-size: 1rem;
+  }
+}

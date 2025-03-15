@@ -1,0 +1,733 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #374151;
+    line-height: 1.6;
+  }
+  
+  .tenant-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1e40af;
+  }
+  
+  /* Tenant List Styling */
+  .tenant-list-container {
+    background-color: #f9f9fc;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tenant-list-top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e4eb;
+  }
+  
+  .tenant-list-top-section h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  /* Tenant List Header */
+  .tenant-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  .tenant-list-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Add Tenant Button */
+  .add-tenant-btn {
+    display: flex;
+    align-items: center;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-tenant-btn:hover {
+    background-color: #357abd;
+  }
+  
+  .add-tenant-btn svg {
+    margin-right: 8px;
+  }
+  
+  .add-tenant-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+  
+  /* Overview Section */
+  .overview-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+  }
+  
+  .overview-section div {
+    background-color: #e5e7eb;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .overview-section div strong {
+    font-size: 1.2rem;
+    color: #1e40af;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Tenant Overview Styles */
+  .tenant-overview {
+    margin-bottom: 20px;
+  }
+  
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .overview-card {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .overview-icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #757575;
+  }
+  
+  .overview-card h3 {
+    font-size: 1em;
+    color: #616161;
+    margin-bottom: 10px;
+  }
+  
+  .overview-card p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #212121;
+  }
+  
+  /* Overview Cards Styling */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .overview-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .overview-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .overview-card .overview-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    opacity: 0.3;
+    color: #6c757d;
+  }
+
+  .overview-card h3 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    color: #6c757d;
+  }
+
+  .overview-card p {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #212529;
+  }
+
+  /* Specific Card Styles */
+  .overview-card.paid-tenants {
+    background: linear-gradient(135deg, #28a745 0%, #2ecc71 100%);
+  }
+
+  .overview-card.paid-tenants h3,
+  .overview-card.paid-tenants p {
+    color: white;
+  }
+
+  .overview-card.overdue-tenants {
+    background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+  }
+
+  .overview-card.overdue-tenants h3,
+  .overview-card.overdue-tenants p {
+    color: white;
+  }
+  
+  /* Tenants Table */
+  .tenant-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    background-color: white;
+  }
+  
+  .tenant-table thead {
+    background-color: #f1f4f8;
+  }
+  
+  .tenant-table th {
+    padding: 12px 15px;
+    text-align: left;
+    color: #7f8c8d;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    border-bottom: 2px solid #e0e4eb;
+  }
+  
+  .tenant-table tbody tr {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.3s ease;
+  }
+  
+  .tenant-table tbody tr:hover {
+    background-color: #f9f9fc;
+  }
+  
+  .tenant-table td {
+    padding: 15px;
+    color: #2c3e50;
+  }
+  
+  .tenant-table td button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tenant-table td button:first-child {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .tenant-table td button:last-child {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .tenant-table td button:hover {
+    opacity: 0.9;
+  }
+  
+  .tenant-table .lease-status-expired {
+    background-color: #ffebee;
+    color: #d32f2f;
+  }
+
+  .tenant-table .lease-status-expired td {
+    font-weight: bold;
+  }
+
+  .tenant-table .lease-status-not-started {
+    background-color: #e3f2fd;
+    color: #1976d2;
+  }
+
+  .tenant-table .lease-status-active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .tenant-table .lease-status-unset {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
+  }
+  
+  /* Loading State */
+  .loading-message, 
+  .error-message, 
+  .warning-message, 
+  .info-message {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .loading-message {
+    background-color: #f1f4f8;
+    color: #3498db;
+  }
+  
+  .error-message {
+    background-color: #ffebee;
+    color: #e74c3c;
+  }
+  
+  .warning-message {
+    background-color: #fff3e0;
+    color: #ff9800;
+  }
+  
+  .info-message {
+    background-color: #e8f4f8;
+    color: #2196f3;
+  }
+  
+  .loading-message svg,
+  .error-message svg,
+  .warning-message svg,
+  .info-message svg {
+    margin-right: 10px;
+  }
+  
+  /* No Tenants Found */
+  .no-tenants {
+    text-align: center;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    color: #7f8c8d;
+  }
+  
+  /* Modal Styling */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+  }
+  
+  .modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .modal-content .close:hover {
+    color: #000;
+  }
+  
+  /* Tenant Details Modal Styling */
+  .tenant-details-modal {
+    max-width: 600px;
+  }
+  
+  .tenant-details-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .tenant-details-section {
+    background-color: #f9f9fc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .tenant-details-section h3 {
+    display: flex;
+    align-items: center;
+    color: #2c3e50;
+    border-bottom: 2px solid #e0e4eb;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  
+  .tenant-details-section h3 svg {
+    margin-right: 10px;
+    color: #3498db;
+  }
+  
+  .tenant-details-section p {
+    margin: 10px 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+  }
+  
+  .tenant-details-section p svg {
+    margin-right: 10px;
+    color: #7f8c8d;
+  }
+  
+  .tenant-details-section strong {
+    color: #2c3e50;
+    margin-right: 10px;
+  }
+  
+  /* Search Bar Styles */
+  .tenant-search-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 50px 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 30px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.2);
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 60px;
+    color: #888;
+    pointer-events: none;
+  }
+
+  .clear-search-btn {
+    position: absolute;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .clear-search-btn:hover {
+    color: #333;
+  }
+
+  .no-results-message {
+    text-align: center;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .payment-status-filter {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    margin-left: 10px;
+  }
+  
+  /* Lease Expiration Reminder Styles */
+  .lease-expiration-reminder {
+    background-color: #fff3e0;
+    border: 2px solid #ff9800;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .lease-expiration-reminder h2 {
+    color: #ff9800;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .warning-icon {
+    color: #ff9800;
+    margin-right: 10px;
+    font-size: 1.5em;
+  }
+
+  .expiring-leases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+
+  .expiring-lease-card {
+    background-color: #fff;
+    border: 1px solid #ffcc80;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+
+  .expiring-lease-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .expiring-lease-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #ff9800;
+  }
+
+  .expiring-lease-header h3 {
+    margin-left: 10px;
+    font-size: 1.1em;
+  }
+
+  .expiring-lease-details {
+    flex-grow: 1;
+  }
+
+  .expiring-lease-details p {
+    margin: 5px 0;
+  }
+
+  .renew-lease-btn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .renew-lease-btn:hover {
+    background-color: #f57c00;
+  }
+  
+  /* Overview Filters */
+  .tenant-overview-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .overview-filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .payment-status-filter {
+    min-width: 150px;
+  }
+  
+  /* Payment Status Filter Styles */
+  .payment-status-filter-container {
+    position: relative;
+  }
+
+  .payment-status-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .payment-status-trigger:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+  }
+
+  .payment-status-trigger svg {
+    margin-right: 8px;
+  }
+
+  .payment-status-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .payment-status-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .payment-status-option:hover {
+    background-color: #f1f3f5;
+  }
+
+  .payment-status-option.selected {
+    background-color: #e9ecef;
+    font-weight: 600;
+  }
+
+  .payment-status-option .status-icon {
+    margin-right: 10px;
+  }
+
+  .tenant-list-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .add-tenant-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-tenant-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .overview-section {
+      grid-template-columns: 1fr;
+    }
+  
+    .search-filter-section input,
+    .search-filter-section select {
+      flex: 1 1 100%;
+    }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
+    .overview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .overview-grid {
+      grid-template-columns: 1fr;
+    }
+    .tenant-details-content {
+      grid-template-columns: 1fr;
+    }
+  }

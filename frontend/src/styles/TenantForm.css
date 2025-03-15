@@ -1,0 +1,474 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #374151;
+    line-height: 1.6;
+  }
+  
+  /* Tenant Form Module Styles */
+  .tenant-form-module {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .tenant-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #f4f6f9;
+    padding-bottom: 1rem;
+  }
+  
+  .tenant-form-title {
+    font-size: 1.8rem;
+    color: #2575fc;
+    font-weight: 700;
+    margin: 0;
+  }
+  
+  .tenant-form-close {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .tenant-form-close:hover {
+    color: #ff4d4f;
+  }
+  
+  .tenant-form-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .tenant-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tenant-form-group label {
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  .tenant-form-group input,
+  .tenant-form-group select,
+  .tenant-form-group textarea {
+    padding: 12px 15px;
+    border: 1px solid #e0e4e8;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .tenant-form-group input:focus,
+  .tenant-form-group select:focus,
+  .tenant-form-group textarea:focus {
+    outline: none;
+    border-color: #2575fc;
+    box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
+  }
+  
+  .tenant-form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  .tenant-form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 2px solid #f4f6f9;
+  }
+  
+  .tenant-form-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .tenant-form-btn-primary {
+    background-color: #2575fc;
+    color: white;
+  }
+  
+  .tenant-form-btn-primary:hover {
+    background-color: #1a5aff;
+  }
+  
+  .tenant-form-btn-secondary {
+    background-color: #f4f6f9;
+    color: #666;
+  }
+  
+  .tenant-form-btn-secondary:hover {
+    background-color: #e6e9ee;
+  }
+  
+  /* Tenant Form Extended Styles */
+  .tenant-form-section-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #2575fc;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f4f6f9;
+  }
+  
+  .tenant-form-section-title svg {
+    margin-right: 10px;
+  }
+  
+  .tenant-form-group.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  /* Error Handling */
+  .tenant-form-error {
+    border-color: #ff4d4f !important;
+  }
+  
+  .tenant-form-error-message {
+    color: #ff4d4f;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* File Upload Styles */
+  .file-upload-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .file-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: #f4f6f9;
+    color: #2575fc;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .file-upload-btn:hover {
+    background-color: #e6e9ee;
+  }
+  
+  .file-name {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .tenant-form-content {
+      grid-template-columns: 1fr;
+    }
+  
+    .tenant-form-module {
+      padding: 1.5rem;
+    }
+  
+    .tenant-form-actions {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .tenant-form-btn {
+      width: 100%;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .tenant-form-module {
+      padding: 20px;
+    }
+  
+    .tenant-form-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  
+  /* Disabled and Read-only Input Styles */
+  input:disabled, 
+  input:read-only {
+    background-color: #f4f6f9;
+    cursor: not-allowed;
+    color: #666;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .tenant-form-module {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Tenant Form Modal Styling */
+  .tenant-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(44, 62, 80, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .tenant-modal {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #7f8c8d;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .modal-close-btn:hover {
+    color: #e74c3c;
+  }
+  
+  .tenant-form-module {
+    padding: 30px;
+  }
+  
+  .tenant-form-header {
+    border-bottom: 2px solid #f1f4f8;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .tenant-form-title {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .tenant-form-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .tenant-form-section-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    color: #7f8c8d;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .tenant-form-section-title svg {
+    margin-right: 10px;
+    color: #3498db;
+  }
+  
+  .tenant-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tenant-form-group.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .tenant-form-group label {
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+  }
+  
+  .tenant-form-group input,
+  .tenant-form-group select,
+  .tenant-form-group textarea {
+    padding: 10px;
+    border: 1px solid #e0e4eb;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .tenant-form-group input:focus,
+  .tenant-form-group select:focus,
+  .tenant-form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+  }
+  
+  .file-upload-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .file-upload-btn {
+    background-color: #f1f4f8;
+    color: #3498db;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .file-upload-btn:hover {
+    background-color: #e0e4eb;
+  }
+  
+  .file-upload-btn svg {
+    margin-right: 8px;
+  }
+  
+  .file-name {
+    color: #7f8c8d;
+    font-size: 14px;
+  }
+  
+  .tenant-form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #f1f4f8;
+  }
+  
+  .tenant-form-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s ease;
+  }
+  
+  .tenant-form-btn svg {
+    margin-right: 8px;
+  }
+  
+  .tenant-form-btn-primary {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .tenant-form-btn-primary:hover {
+    opacity: 0.9;
+  }
+  
+  .tenant-form-btn-secondary {
+    background-color: #f1f4f8;
+    color: #2c3e50;
+  }
+  
+  .tenant-form-btn-secondary:hover {
+    background-color: #e0e4eb;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .tenant-form-content {
+      grid-template-columns: 1fr;
+    }
+  
+    .tenant-modal {
+      width: 95%;
+      max-height: 95vh;
+    }
+  }
