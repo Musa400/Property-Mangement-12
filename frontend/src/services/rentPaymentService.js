@@ -201,6 +201,7 @@ class RentPaymentService {
   async createRentPayment(paymentData) {
     try {
       console.log('📤 Sending payment request with data:', paymentData);
+      console.log('Creating rent payment with data:', paymentData);
       
       // Validate required fields
       const requiredFields = ['tenant', 'property', 'amount', 'rentPeriod', 'paymentMethod'];
@@ -228,6 +229,8 @@ class RentPaymentService {
         createdBy: currentUser._id,
         status: 'Completed'
       };
+
+      console.log('Formatted payment data:', formattedData);
 
       // Create the payment
       const response = await axios.post(
@@ -494,10 +497,6 @@ class RentPaymentService {
   async addPaymentTransaction(paymentData) {
     try {
       const token = this.getAuthToken();
-
-      console.group(' Adding Payment Transaction');
-      console.log('Transaction Data:', paymentData);
-
       const response = await axios.post(`${API_BASE_URL}/rent-payments/tenant/transaction`, paymentData, {
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -28,6 +28,8 @@ exports.protect = async (req, res, next) => {
         return next(ApiError.unauthorized('User not found'));
       }
 
+      console.log('Authenticated User:', user);
+
       // Add user to request object
       req.user = user;
       next();

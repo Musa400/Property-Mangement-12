@@ -40,6 +40,8 @@ const authMiddleware = catchAsync(async (req, res, next) => {
       throw new ApiError('User recently changed password. Please log in again.', 401);
     }
 
+    console.log('Authenticated User:', user);
+
     // Add user to request object
     req.user = user;
     next();

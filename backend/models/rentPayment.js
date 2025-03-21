@@ -124,7 +124,8 @@ const RentPaymentSchema = new mongoose.Schema({
 }, {
   timestamps: true,
   toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  toObject: { virtuals: true },
+  strictPopulate: false
 });
 
 // Pre-save middleware for comprehensive validation

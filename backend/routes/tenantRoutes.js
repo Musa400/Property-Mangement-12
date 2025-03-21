@@ -6,14 +6,15 @@ const {
   updateTenant,
   deleteTenant,
 } = require("../controllers/tenantController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 // ✅ Define API routes
-router.post("/", createTenant);
-router.get("/", getAllTenants);
-router.get("/:id", getTenantById);
-router.put("/:id", updateTenant);
-router.delete("/:id", deleteTenant);
+router.post("/", authMiddleware, createTenant);
+router.get("/", authMiddleware, getAllTenants);
+router.get("/:id", authMiddleware, getTenantById);
+router.put("/:id", authMiddleware, updateTenant);
+router.delete("/:id", authMiddleware, deleteTenant);
 
 module.exports = router;

@@ -144,7 +144,7 @@ const RentPayments = () => {
         console.log('Starting data fetch...');
 
         const [fetchedTenants, fetchedProperties] = await Promise.all([
-          tenantService.getTenants(),
+          tenantService.getAllTenants(),
           propertyService.getAllProperties() 
         ]);
         
@@ -2107,7 +2107,7 @@ const RentPayments = () => {
         if (!tenants || tenants.length === 0) {
           console.log('Tenants not loaded yet, fetching...');
           try {
-            const fetchedTenants = await tenantService.getTenants();
+            const fetchedTenants = await tenantService.getAllTenants();
             setTenants(fetchedTenants);
             console.log('Fetched tenants:', fetchedTenants);
           } catch (error) {

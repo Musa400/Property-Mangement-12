@@ -17,6 +17,21 @@ function normalizeRentPeriod(period) {
     return `${now.getMonth() + 1}/${now.getFullYear()}`;
   }
 
+  // If already in MM/YYYY format
+  if (/^\d{1,2}\/\d{4}$/.test(period)) {
+    return period;
+  }
+
+  // If in YYYY-MM format, convert to MM/YYYY
+  const parts = period.split('-');
+  if (parts.length === 2) {
+    const year = parts[0];
+    const month = parts[1];
+    if (month >= 1 && month <= 12) {
+      return `${month}/${year}`;
+    }
+  }
+
   // Month name to number mapping
   const monthMap = {
     'حمل': 1, 'حمل': 1,
@@ -35,11 +50,6 @@ function normalizeRentPeriod(period) {
 
   // Try parsing different formats
   const currentYear = new Date().getFullYear();
-  
-  // If already in MM/YYYY format
-  if (/^\d{1,2}\/\d{4}$/.test(period)) {
-    return period;
-  }
   
   // If month name is provided
   const lowercasePeriod = period.toLowerCase().trim();
@@ -222,17 +232,24 @@ async function generateUniqueReceiptNumber() {
 
 // Create a new rent payment with comprehensive validation and error handling
 exports.createRentPayment = catchAsync(async (req, res, next) => {
+  console.log('Create Rent Payment Request:', {
+    userId: req.user._id,
+    requestBody: req.body
+  });
+
   try {
     const {
       tenant,
       property,
       amount,
       rentPeriod,
-      paymentMethod,
       paymentDate,
-      notes
+      paymentMethod,
+      notes,
+      status
     } = req.body;
 
+    console.log('Incoming payment data:', req.body);
     console.log('Creating rent payment with data:', {
       tenant,
       property,
@@ -243,6 +260,8 @@ exports.createRentPayment = catchAsync(async (req, res, next) => {
       notes,
       createdBy: req.user
     });
+
+    console.log('User ID:', req.user._id);
 
     // Validate required fields
     if (!tenant || !property || !amount || !rentPeriod || !paymentMethod) {
@@ -261,246 +280,98 @@ exports.createRentPayment = catchAsync(async (req, res, next) => {
       return next(new ApiError('You can only create payments for yourself', 403));
     }
 
-    try {
-      // 1. Check if tenant exists with comprehensive matching criteria
-      const tenantExists = await Tenant.findOne({
-        $or: [
-          // Direct matches
-          { _id: tenant },
-         
-          
-          { userId: req.user.id },
-          { username: req.user.username }
-        ]
-      }).populate([
-        {
-          path: 'propertyId',
-          select: '_id name address'
-        },
-        {
-          path: 'userId',
-          select: '_id username'
-        }
-      ]);
+    // Normalize rent period
+    const normalizedRentPeriod = normalizeRentPeriod(rentPeriod);
+    console.log('Normalized Rent Period:', normalizedRentPeriod);
 
-      if (!tenantExists) {
-        console.error('Tenant lookup failed:', {
-          searchCriteria: {
-            tenantId: tenant,
-            userEmail: req.user.username,
-            userId: req.user.id,
-            username: req.user.username
-          },
-          timestamp: new Date().toISOString()
-        });
+    // Check for duplicate payment
+    const existingPayment = await RentPayment.findOne({
+      tenant,
+      property,
+      rentPeriod: normalizedRentPeriod
+    });
 
-        // Check if we need to create a tenant profile
-        if (req.user.userType === 'tenant') {
-          const existingPaymentHistory = await TenantPaymentHistory.findOne({
-            $or: [
-              { 'tenantDetails.username': req.user.username },
-              { 'tenantDetails.userId': req.user.id }
-            ]
-          });
-
-          if (existingPaymentHistory) {
-            // Create tenant profile from payment history
-            const newTenant = new Tenant({
-              username: req.user.username,
-              userId: req.user.id,
-              propertyId: existingPaymentHistory.propertyId,
-              name: existingPaymentHistory.tenantDetails.name || req.user.username,
-              lastModifiedBy: req.user.id,
-              lastModifiedAt: new Date()
-            });
-            await newTenant.save();
-            return newTenant;
-          }
-        }
-
-        return next(new ApiError('Tenant profile not found. Please ensure your account is properly linked to a tenant profile.', 404));
-      }
-
-      // Validate property association
-      if (property && tenantExists.propertyId?._id.toString() !== property.toString()) {
-        console.error('Property mismatch:', {
-          tenantProperty: tenantExists.propertyId?._id,
-          requestedProperty: property,
-          timestamp: new Date().toISOString()
-        });
-        return next(new ApiError('Tenant is not associated with the specified property.', 400));
-      }
-
-      // Update tenant information to maintain consistency
-      if (req.user.userType === 'tenant') {
-        const updates = {
-          username: req.user.username,
-          userId: req.user.id,
-          lastModifiedBy: req.user.id,
-          lastModifiedAt: new Date()
-        };
-
-        // Only update if there are changes
-        const hasChanges = Object.keys(updates).some(key => 
-          tenantExists[key]?.toString() !== updates[key]?.toString()
-        );
-
-        if (hasChanges) {
-          console.log('Updating tenant information:', {
-            tenantId: tenantExists._id,
-            updates,
-            timestamp: new Date().toISOString()
-          });
-
-          await Tenant.findByIdAndUpdate(tenantExists._id, updates);
-        }
-      }
-
-      // 2. Normalize rent period
-      const normalizedRentPeriod = rentPeriod;
-
-      // 3. Check for duplicate payment with more detailed conditions
-      const existingPayment = await RentPayment.findOne({
-        tenant,
-        property,
-        rentPeriod: normalizedRentPeriod
+    if (existingPayment) {
+      const formattedDate = new Date(existingPayment.paymentDate).toLocaleDateString();
+      console.error('Duplicate payment found:', {
+        existingPayment,
+        formattedDate
       });
-
-      if (existingPayment) {
-        const formattedDate = new Date(existingPayment.paymentDate).toLocaleDateString();
-        return next(new ApiError(
-          `A payment of ${existingPayment.amount} already exists for period ${normalizedRentPeriod} (paid on ${formattedDate})`,
-          400
-        ));
-      }
-
-      // 4. Generate unique receipt number
-      const receiptNumber = await generateUniqueReceiptNumber();
-
-      // 5. Create new rent payment
-      const rentPayment = new RentPayment({
-        tenant,
-        property,
-        amount: Number(amount),
-        rentPeriod: normalizedRentPeriod,
-        paymentDate: paymentDate ? new Date(paymentDate) : new Date(),
-        paymentMethod,
-        notes,
-        createdBy: req.user._id,
-        status: req.user.userType === 'tenant' ? 'Pending' : 'Completed',
-        receiptNumber
-      });
-
-      await rentPayment.save();
-
-      // 6. Update tenant's last payment date and status
-      await Tenant.findByIdAndUpdate(
-        tenant,
-        {
-          lastPaymentDate: rentPayment.paymentDate,
-          paymentStatus: req.user.userType === 'tenant' ? 'Pending' : 'Paid'
-        }
-      );
-
-      // 7. Create or update payment history
-      const newTransaction = {
-        rentPayment: rentPayment._id,
-        amount: parseFloat(amount),
-        paymentDate: rentPayment.paymentDate,
-        rentPeriod: normalizedRentPeriod,
-        paymentMethod,
-        property,
-        createdBy: req.user._id,
-        status: req.user.userType === 'tenant' ? 'Pending' : 'Completed',
-        receiptNumber
-      };
-
-      // Find existing history or create new one
-      const tenantHistory = await TenantPaymentHistory.findOneAndUpdate(
-        {
-          tenant,
-          propertyId: property
-        },
-        {
-          $setOnInsert: {
-            tenant,
-            propertyId: property,
-            firstPaymentDate: rentPayment.paymentDate,
-            tenantDetails: {
-              username: req.user.username,
-              userId: req.user.id,
-              propertyId: property
-            },
-            createdBy: req.user._id
-          },
-          $push: { paymentTransactions: newTransaction },
-          $inc: { totalPaidAmount: parseFloat(amount) },
-          $set: {
-            lastPaymentDate: rentPayment.paymentDate,
-            lastModifiedBy: req.user._id
-          }
-        },
-        {
-          new: true,
-          upsert: true
-        }
-      );
-
-      // 8. Populate references for response
-      await rentPayment.populate([
-        { path: 'tenant', select: 'firstName lastName username' },
-        { path: 'property', select: 'name address' },
-        { path: 'createdBy', select: 'username' }
-      ]);
-
-      // 9. Return success response
-      res.status(201).json({
-        success: true,
-        data: {
-          payment: rentPayment,
-          paymentHistory: {
-            totalTransactions: tenantHistory.paymentTransactions.length,
-            totalPaidAmount: tenantHistory.totalPaidAmount,
-            firstPaymentDate: tenantHistory.firstPaymentDate,
-            lastPaymentDate: tenantHistory.lastPaymentDate
-          }
-        }
-      });
-
-    } catch (error) {
-      console.error('Error in payment creation process:', error);
-      throw error;
+      return next(new ApiError(
+        `A payment of ${existingPayment.amount} already exists for period ${normalizedRentPeriod} (paid on ${formattedDate})`,
+        400
+      ));
     }
+
+    // Generate unique receipt number
+    const receiptNumber = await generateUniqueReceiptNumber();
+
+    // Create new rent payment
+    const newPayment = new RentPayment({
+      tenant,
+      property,
+      amount,
+      rentPeriod: normalizedRentPeriod,
+      paymentDate,
+      paymentMethod,
+      notes,
+      status,
+      createdBy: req.user._id // Ensure createdBy is set
+    });
+
+    console.log('New payment object:', newPayment);
+
+    // Save the new payment
+    const savedPayment = await newPayment.save();
+
+    // Update tenant's payment history
+    let tenantHistory = await TenantPaymentHistory.findOne({
+      tenant,
+      propertyId: property
+    });
+
+    if (!tenantHistory) {
+      tenantHistory = new TenantPaymentHistory({
+        tenant,
+        propertyId: property,
+        paymentTransactions: []
+      });
+    }
+
+    tenantHistory.paymentTransactions.push({
+      rentPayment: savedPayment._id,
+      amount,
+      paymentMethod,
+      paymentDate,
+      rentPeriod: normalizedRentPeriod
+    });
+
+    tenantHistory.totalPaidAmount = tenantHistory.paymentTransactions.reduce(
+      (total, transaction) => total + (transaction.amount || 0),
+      0
+    );
+
+    tenantHistory.firstPaymentDate = tenantHistory.paymentTransactions[0].paymentDate;
+    tenantHistory.lastPaymentDate = tenantHistory.paymentTransactions[tenantHistory.paymentTransactions.length - 1].paymentDate;
+
+    await tenantHistory.save();
+
+    // Populate references for response
+    const populatedPayment = await RentPayment.findById(savedPayment._id).populate('createdBy');
+
+    res.status(201).json({ success: true, data: populatedPayment });
   } catch (error) {
     console.error('Error creating rent payment:', {
       name: error.name,
       message: error.message,
       stack: error.stack,
-      code: error.code,
-      keyPattern: error.keyPattern,
-      keyValue: error.keyValue,
-      errors: error.errors
+      requestBody: req.body,
+      tenantId: tenant,
+      propertyId: property,
+      amount,
+      rentPeriod,
+      paymentDate
     });
-    
-    if (error.name === 'ValidationError') {
-      const validationErrors = extractValidationErrors(error);
-      console.error('Validation errors:', validationErrors);
-      return next(new ApiError('Validation Error: ' + JSON.stringify(validationErrors), 400));
-    }
-    if (error.name === 'ApiError') {
-      return next(error);
-    }
-    if (error.name === 'MongoError' || error.name === 'MongoServerError') {
-      console.error('MongoDB error:', error);
-      if (error.code === 11000) {
-        if (error.keyPattern.receiptNumber) {
-          // If duplicate receipt number, retry with a new one
-          return exports.createRentPayment(req, res, next);
-        }
-        return next(new ApiError('Duplicate payment detected', 400));
-      }
-      return next(new ApiError('Database error: ' + error.message, 500));
-    }
     return next(new ApiError('Error creating rent payment: ' + error.message, 500));
   }
 });
@@ -544,6 +415,12 @@ exports.getRentPayment = catchAsync(async (req, res, next) => {
 
 // Update a rent payment
 exports.updateRentPayment = catchAsync(async (req, res, next) => {
+  console.log('Update Rent Payment Request:', {
+    userId: req.user._id,
+    paymentId: req.params.id,
+    requestBody: req.body
+  });
+
   const payment = await RentPayment.findById(req.params.id);
 
   if (!payment) {
@@ -850,7 +727,7 @@ exports.getTenants = catchAsync(async (req, res) => {
     if (req.user.role === 'admin') {
       tenants = await Tenant.find(); // Fetch all tenants
     } else {
-      tenants = await Tenant.find({ userId: req.user.id }); // Fetch only the user's tenants
+      tenants = await Tenant.find({ createdBy: req.user.id }); // Fetch only the user's tenants
     }
     res.json(tenants);
   } catch (error) {
@@ -865,7 +742,7 @@ exports.getTenants = catchAsync(async (req, res) => {
     if (req.user.role === 'admin') {
       tenants = await Tenant.find(); // Fetch all tenants
     } else {
-      tenants = await Tenant.find({ userId: req.user.id }); // Fetch only the user's tenants
+      tenants = await Tenant.find({ createdBy: req.user.id }); // Fetch only the user's tenants
     }
     res.json(tenants);
   } catch (error) {
