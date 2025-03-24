@@ -115,9 +115,9 @@ const updateTenant = async (tenantId, tenantData) => {
 };
 
 // ✅ Delete a tenant
-const deleteTenant = async (tenantId) => {
+const deleteTenant = async (id) => {
   try {
-    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error('User is not authenticated.');
       alert('You need to log in to delete a tenant.');
@@ -130,15 +130,25 @@ const deleteTenant = async (tenantId) => {
       }
     };
 
-    const tenant = await getTenantById(tenantId);
-    await axios.delete(`${API_URL}/${tenantId}`, config);
-    await propertyService.updatePropertyStatus(tenant.propertyId, 'Vacant');
-    return { message: "Tenant deleted successfully" };
+    const response = await axios.delete(`${API_URL}/${id}`, config);
+    
+    // Dispatch property status update event
+    const propertyStatusUpdateEvent = new CustomEvent('propertyStatusUpdate', {
+      detail: {
+        propertyId: response.data.property._id,
+        newStatus: response.data.property.status
+      },
+      bubbles: true,
+      composed: true
+    });
+    document.dispatchEvent(propertyStatusUpdateEvent);
+
+    return response.data;
   } catch (error) {
-    console.error("❌ Error deleting tenant:", error.response?.data || error.message);
+    console.error('Error deleting tenant:', error);
     throw error;
   }
-}
+};
 
 // ✅ Add a new tenant with property status update
 const createTenantWithPropertyStatusUpdate = async (tenantData, propertyId) => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   FaSave, 
   FaTimes, 
@@ -9,13 +9,43 @@ import {
 import '../../styles/TenantForm.css';
 
 function TenantForm({ tenant, properties = [], onSave, onCancel }) {
-   // Filter for vacant properties only when adding a new tenant
-   const displayProperties = tenant 
-     ? properties  // Show all properties when editing
-     : properties.filter(property => property.status === 'vacant');
-   
-   console.log(tenant ? "All Properties:" : "Vacant Properties:", displayProperties);
-   console.log('Properties Structure:', properties); // Added this line to log properties structure
+  // Add state for properties
+  const [displayedProperties, setDisplayedProperties] = useState(properties);
+
+  // Filter properties based on status
+  const displayProperties = tenant 
+    ? displayedProperties  // Show all properties when editing
+    : displayedProperties.filter(property => property.status?.toLowerCase() === 'vacant');
+  
+  // Log the properties for debugging
+  console.log('Total properties:', displayedProperties.length);
+  console.log('Displaying properties:', displayProperties.length);
+  console.log('All properties status:', displayedProperties.map(p => ({ id: p._id, status: p.status })));
+  console.log('Filtered properties status:', displayProperties.map(p => ({ id: p._id, status: p.status })));
+
+  // Listen for property status updates
+  useEffect(() => {
+    const handlePropertyStatusUpdate = async (event) => {
+      const { propertyId, newStatus } = event.detail;
+      try {
+        const updatedProperties = await propertyService.getAllProperties();
+        setDisplayedProperties(updatedProperties);
+      } catch (error) {
+        console.error('Error updating properties:', error);
+      }
+    };
+
+    document.addEventListener('propertyStatusUpdate', handlePropertyStatusUpdate);
+    return () => {
+      document.removeEventListener('propertyStatusUpdate', handlePropertyStatusUpdate);
+    };
+  }, []);
+
+  // Update displayed properties when props change
+  useEffect(() => {
+    setDisplayedProperties(properties);
+  }, [properties]);
+
   const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
     // Tenant Personal Information
@@ -225,9 +255,13 @@ function TenantForm({ tenant, properties = [], onSave, onCancel }) {
               {displayProperties.map(property => (
                 <option key={property._id} value={property._id}>
                   {property.title || property.name || property.address || `Property ${property._id}`}
+                  {' - ' + (property.status || 'N/A')}
                 </option>
               ))}
             </select>
+            {displayProperties.length === 0 && (
+              <p className="error-message">No vacant properties available</p>
+            )}
           </div>
 
           <div className="tenant-form-group">
@@ -277,7 +311,7 @@ function TenantForm({ tenant, properties = [], onSave, onCancel }) {
             >
               <option value="">Select Payment Status</option>
               {/* <option value="Due">Due</option> */}
-              <option value="Paid">Paid</option>
+              {/* <option value="Paid">Paid</option> */}
               <option value="Overdue">Overdue</option>
             </select>
           </div>

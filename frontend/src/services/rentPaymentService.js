@@ -671,6 +671,19 @@ class RentPaymentService {
       throw new Error(error.response?.data?.message || 'Failed to fetch payment statistics');
     }
   }
+
+  // Update tenant status to Paid when payment is made
+  async updateTenantStatus(tenantId) {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/tenants/${tenantId}/status`, {
+        paymentStatus: 'Paid'
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error updating tenant status:', error);
+      throw error;
+    }
+  }
 }
 
 export default new RentPaymentService();

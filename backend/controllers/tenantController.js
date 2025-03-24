@@ -1,5 +1,6 @@
 const Tenant = require("../models/Tenant");
 const Property = require("../models/Property");
+const RentPayment = require("../models/RentPayment");
 
 // ✅ Add a new tenant
 const createTenant = async (req, res) => {
@@ -91,11 +92,23 @@ const deleteTenant = async (req, res) => {
     if (!tenant) return res.status(404).json({ message: "Tenant not found" });
 
     console.log('Tenant found:', tenant);
-    const updatedProperty = await Property.findByIdAndUpdate(tenant.propertyId, { status: 'Vacant' });
+    
+    // Update property status to 'vacant'
+    const updatedProperty = await Property.findByIdAndUpdate(
+      tenant.propertyId, 
+      { status: 'vacant' },
+      { new: true }  // Return the updated document
+    );
+    
     console.log('Updated Property:', updatedProperty);
 
-    res.status(200).json({ message: "Tenant deleted successfully" });
+    // Return both the deletion message and the updated property
+    res.status(200).json({ 
+      message: "Tenant deleted successfully",
+      property: updatedProperty
+    });
   } catch (error) {
+    console.error('Error deleting tenant:', error);
     res.status(500).json({ message: "Failed to delete tenant", error });
   }
 };
@@ -117,6 +130,78 @@ const searchTenant = async (req, res) => {
   }
 };
 
+// Update tenant status based on lease end date and payment history
+const updateTenantStatus = async () => {
+  try {
+    const today = new Date();
+    
+    // Find all tenants
+    const tenants = await Tenant.find();
+    
+    for (const tenant of tenants) {
+      // Check if lease has ended
+      if (tenant.leaseEndDate < today) {
+        // Check if there's a recent payment
+        const recentPayment = await RentPayment.findOne({
+          tenantId: tenant._id,
+          createdAt: { $gte: tenant.leaseEndDate }
+        });
+        
+        // If no recent payment, set to Overdue
+        if (!recentPayment) {
+          await Tenant.findByIdAndUpdate(tenant._id, {
+            paymentStatus: 'Overdue'
+          });
+        }
+      } else {
+        // If lease is still active, check for recent payments
+        const lastPayment = await RentPayment.findOne({
+          tenantId: tenant._id
+        }).sort({ createdAt: -1 });
+        
+        // If there's no payment or last payment is before lease start, set to Pending
+        if (!lastPayment || lastPayment.createdAt < tenant.leaseStartDate) {
+          await Tenant.findByIdAndUpdate(tenant._id, {
+            paymentStatus: 'Pending'
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error updating tenant status:', error);
+  }
+};
+
+// Update tenant status to Paid when payment is made
+const updateTenantToPaid = async (tenantId) => {
+  try {
+    const updatedTenant = await Tenant.findByIdAndUpdate(
+      tenantId,
+      { paymentStatus: 'Paid' },
+      { new: true }
+    );
+    if (!updatedTenant) {
+      throw new Error('Tenant not found');
+    }
+    return updatedTenant;
+  } catch (error) {
+    console.error('Error updating tenant to Paid:', error);
+    throw error;
+  }
+};
+
+// Run status update every day
+const scheduleStatusUpdate = () => {
+  const updateStatus = () => {
+    updateTenantStatus();
+    // Schedule next update for tomorrow
+    setTimeout(updateStatus, 24 * 60 * 60 * 1000);
+  };
+  
+  // Start the first update
+  updateStatus();
+};
+
 // ✅ Export all functions
 module.exports = {
   createTenant,
@@ -125,4 +210,6 @@ module.exports = {
   updateTenant,
   deleteTenant,
   searchTenant,
+  scheduleStatusUpdate,
+  updateTenantToPaid
 };

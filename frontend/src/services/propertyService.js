@@ -58,9 +58,36 @@ export const propertyService = {
   getAllProperties: async () => {
     try {
       const response = await api.get('/properties');
-      return response.data.data || response.data;
+      console.log('Raw properties response:', response.data);
+      const properties = Array.isArray(response.data) 
+        ? response.data 
+        : response.data?.data || [];
+      
+      // Add status field if missing
+      const propertiesWithStatus = properties.map(prop => ({
+        ...prop,
+        status: prop.status || 'vacant'  // Default to vacant if status is missing
+      }));
+      
+      return propertiesWithStatus;
     } catch (error) {
-      console.error('Error fetching properties:', error.response?.data || error.message);
+      console.error('Error fetching properties:', error);
+      throw error;
+    }
+  },
+
+  // Get vacant properties
+  getVacantProperties: async () => {
+    try {
+      const response = await api.get('/properties?status=vacant');
+      console.log('Vacant properties response:', response.data);
+      const properties = Array.isArray(response.data) 
+        ? response.data 
+        : response.data?.data || [];
+      
+      return properties;
+    } catch (error) {
+      console.error('Error fetching vacant properties:', error);
       throw error;
     }
   },

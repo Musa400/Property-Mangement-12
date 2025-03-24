@@ -153,8 +153,8 @@ function TenantList() {
         setError(null);
         
         const [tenantsData, propertiesData] = await Promise.all([
-          tenantService.getAllTenants(), // Updated this line
-          propertyService.getAllProperties()
+          tenantService.getAllTenants(),
+          propertyService.getVacantProperties()  // Fetch only vacant properties
         ]);
         
         console.log('Tenants Data:', tenantsData);
@@ -698,7 +698,7 @@ function TenantList() {
             </button>
             <TenantForm 
               tenant={currentTenant} 
-              properties={properties}
+              properties={properties}  // No need to filter here since we're already getting vacant properties
               onSave={currentTenant ? handleEditTenant : handleAddTenant} 
               onCancel={closeModal} 
             />

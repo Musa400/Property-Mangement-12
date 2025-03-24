@@ -35,20 +35,49 @@ const PropertiesList = () => {
 
   const navigate = useNavigate();
 
+  // Debug property status values
+  useEffect(() => {
+    console.log('Properties status values:', properties.map(p => ({ id: p._id, status: p.status })));
+    console.log('Vacant properties:', properties.filter(p => p.status?.toLowerCase() === 'vacant').length);
+    console.log('Occupied properties:', properties.filter(p => p.status?.toLowerCase() === 'occupied').length);
+    console.log('Maintenance properties:', properties.filter(p => p.status?.toLowerCase() === 'maintenance').length);
+  }, [properties]);
+
   // Fetch properties on component mount
   useEffect(() => {
     const fetchProperties = async () => {
       try {
+        setLoading(true);
         const fetchedProperties = await propertyService.getAllProperties();
         setProperties(fetchedProperties);
         setLoading(false);
       } catch (err) {
-        setError(err.message);
+        console.error('Error fetching properties:', err);
+        setError(err.message || 'Failed to load properties');
         setLoading(false);
       }
     };
 
     fetchProperties();
+
+    // Add event listener for property status updates
+    const handlePropertyStatusUpdate = async (event) => {
+      const { propertyId, newStatus } = event.detail;
+      try {
+        const updatedProperties = await propertyService.getAllProperties();
+        setProperties(updatedProperties);
+      } catch (error) {
+        console.error('Error updating properties:', error);
+      }
+    };
+
+    // Listen for property status updates
+    document.addEventListener('propertyStatusUpdate', handlePropertyStatusUpdate);
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('propertyStatusUpdate', handlePropertyStatusUpdate);
+    };
   }, []);
 
   // Search functionality
@@ -322,19 +351,19 @@ const PropertiesList = () => {
               className="overview-card"
             >
               <h3>اشغال شوی</h3>
-              <p>{properties.filter((prop) => prop.status === 'occupied').length}</p>
+              <p>{properties.filter((prop) => prop.status?.toLowerCase()?.toLowerCase() === 'occupied').length}</p>
             </div>
             <div 
               className="overview-card"
             >
                <h3>خالی</h3>
-               <p>{properties.filter((prop) => prop.status === 'vacant').length}</p>
+               <p>{properties.filter((prop) => prop.status?.toLowerCase()?.toLowerCase() === 'vacant').length}</p>
             </div>
             <div 
               className="overview-card"
             >
               <h3>د ساتنې لاندې</h3>
-              <p>{properties.filter((prop) => prop.status === 'maintenance').length}</p>
+              <p>{properties.filter((prop) => prop.status?.toLowerCase()?.toLowerCase() === 'maintenance').length}</p>
             </div>
           </div>
           
