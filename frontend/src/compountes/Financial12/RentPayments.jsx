@@ -115,27 +115,26 @@ const RentPayments = () => {
   const [showMonthsDialog, setShowMonthsDialog] = useState(false);
   const [paidMonths, setPaidMonths] = useState([]);
 
-  // Add useEffect to initialize userRole
+  // Fetch user role on component mount
   useEffect(() => {
-    const userString = localStorage.getItem('user');
-    if (userString) {
+    const fetchUserRole = async () => {
       try {
-        const userData = JSON.parse(userString);
-        setUserRole(userData.userType || '');
-        
-        // If user is a tenant, automatically set their information
-        if (userData.userType === 'tenant' && userData.id) {
-          const currentTenant = tenants.find(t => t._id === userData.id);
-          if (currentTenant) {
-            handleTenantSelect(currentTenant);
+        const userString = localStorage.getItem('user');
+        if (userString) {
+          try {
+            const userData = JSON.parse(userString);
+            setUserRole(userData.userType || '');
+          } catch (error) {
+            console.error('Error parsing user data:', error);
+            setUserRole('');
           }
         }
       } catch (error) {
-        console.error('Error parsing user data:', error);
-        setUserRole('');
+        console.error('Error fetching user role:', error);
       }
-    }
-  }, [tenants]); // Add tenants as dependency
+    };
+    fetchUserRole();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -1175,18 +1174,18 @@ const RentPayments = () => {
 
     // Filter payments based on user role
     const paymentsToShow = filteredRentPayments.filter(payment => {
-      if (userData.userType === 'admin') {
+      if (userRole === 'admin') {
         return true; // Admin sees all payments
       }
       
-      if (userData.userType === 'tenant') {
+      if (userRole === 'tenant') {
         // Tenants see only their own payments
         return payment.tenant?._id === userData.id || 
                payment.tenant === userData.id ||
                payment.createdBy === userData.id;
       }
       
-      if (userData.userType === 'property_manager') {
+      if (userRole === 'property_manager') {
         // Property managers see payments for their managed properties
         return payment.property?.manager === userData.id ||
                payment.createdBy === userData.id;
@@ -1221,8 +1220,8 @@ const RentPayments = () => {
             <TableRow>
               <TableCell>Tenant Name</TableCell>
               <TableCell>Latest Payment</TableCell>
-              {userData.userType === 'admin' && <TableCell>Total Amount</TableCell>}
-              {userData.userType === 'admin' && <TableCell>Payment History</TableCell>}
+              {userRole === 'admin' && <TableCell>Total Amount</TableCell>}
+              {userRole === 'admin' && <TableCell>Payment History</TableCell>}
               <TableCell>Property</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
@@ -1232,7 +1231,7 @@ const RentPayments = () => {
             {paymentsToShow.map((item) => (
               <TableRow key={item._id || item.id || Math.random().toString()}>
                 <TableCell>
-                  {userData.userType === 'admin' ? (
+                  {userRole === 'admin' ? (
                     <Button 
                       onClick={() => handleOpenTenantDetails(item.tenantName)}
                       style={{ textTransform: 'none' }}
@@ -1256,7 +1255,7 @@ const RentPayments = () => {
                     </Typography>
                   </Box>
                 </TableCell>
-                {userData.userType === 'admin' && (
+                {userRole === 'admin' && (
                   <TableCell>
                     {new Intl.NumberFormat('en-US', { 
                       style: 'currency', 
@@ -1264,7 +1263,7 @@ const RentPayments = () => {
                     }).format(item.totalAmount || 0)}
                   </TableCell>
                 )}
-                {userData.userType === 'admin' && (
+                {userRole === 'admin' && (
                   <TableCell>
                     <Box>
                       <Typography variant="body2">
@@ -1296,7 +1295,7 @@ const RentPayments = () => {
                   >
                     <HistoryIcon />
                   </IconButton>
-                  {userData.userType === 'admin' && (
+                  {userRole === 'admin' && (
                     <IconButton 
                       onClick={() => handleOpenDeleteModal(item)}
                       color="secondary"

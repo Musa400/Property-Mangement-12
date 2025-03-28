@@ -29,7 +29,7 @@ import MaintenanceRequestForm from './compountes/Maintenance12/MaintenanceReques
 import MaintenanceRequestDetails from './compountes/Maintenance12/MaintenanceRequestDetails';
 import MaintenanceRequestList from './compountes/Maintenance12/MaintenanceRequestList';
 import Header from './compountes/navbar/Header';
-import AdminDashboard from './compountes/admainDashboard.jsx';
+// import AdminDashboard from './compountes/admainDashboard.jsx';
 
 import FinancialManagement from './compountes/Financial12/Income.jsx';
 import FinancialExpenses from './compountes/Financial12/Expenses.jsx';
@@ -346,7 +346,7 @@ function AppContent() {
          }
        /> */}
        <Route path='/privacy-policy' element={<Privacy/>}/>
-       <Route 
+       {/* <Route 
          path='/admin-dashboard' 
          element={
            <ProtectedRoute>
@@ -354,7 +354,7 @@ function AppContent() {
              <AdminDashboard/>
            </ProtectedRoute>
          }
-       />
+       /> */}
      </Routes>
    );
 

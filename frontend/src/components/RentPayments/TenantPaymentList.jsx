@@ -41,7 +41,8 @@ const TenantPaymentList = () => {
     rentPeriod: '',
     paymentMethod: '',
     paymentDate: format(new Date(), 'yyyy-MM-dd'),
-    notes: ''
+    notes: '',
+    status: ''
   });
 
   // Fetch tenant payments
@@ -94,12 +95,22 @@ const TenantPaymentList = () => {
   }, []);
 
   // Handle payment creation
-  const handleCreatePayment = async (tenant) => {
+  const handleCreatePayment = async () => {
     try {
+      if (!selectedTenant) {
+        setError('Please select a tenant first');
+        return;
+      }
+
       const payment = await rentPaymentService.createRentPayment({
-        tenant: tenant._id,
-        property: tenant.propertyId,
-        ...paymentData
+        tenant: selectedTenant._id, 
+        property: selectedTenant.propertyId,
+        amount: paymentData.amount,
+        rentPeriod: paymentData.rentPeriod,
+        paymentDate: paymentData.paymentDate,
+        paymentMethod: paymentData.paymentMethod, 
+        notes: paymentData.notes,
+        status: paymentData.status
       });
 
       // Refresh the list
@@ -110,7 +121,8 @@ const TenantPaymentList = () => {
         rentPeriod: '',
         paymentMethod: '',
         paymentDate: format(new Date(), 'yyyy-MM-dd'),
-        notes: ''
+        notes: '',
+        status: ''
       });
     } catch (err) {
       console.error('Error creating payment:', err);
@@ -137,7 +149,8 @@ const TenantPaymentList = () => {
       rentPeriod: '',
       paymentMethod: '',
       paymentDate: format(new Date(), 'yyyy-MM-dd'),
-      notes: ''
+      notes: '',
+      status: ''
     });
   };
 
@@ -334,15 +347,23 @@ const TenantPaymentList = () => {
               rows={3}
               fullWidth
             />
+            <TextField
+              label="Status"
+              name="status"
+              value={paymentData.status}
+              onChange={handlePaymentDataChange}
+              required
+              fullWidth
+            />
           </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button
-            onClick={() => handleCreatePayment(selectedTenant)}
+            onClick={handleCreatePayment}
             variant="contained"
             color="primary"
-            disabled={!paymentData.amount || !paymentData.rentPeriod || !paymentData.paymentMethod}
+            disabled={!paymentData.amount || !paymentData.rentPeriod || !paymentData.paymentMethod || !paymentData.status}
           >
             Create Payment
           </Button>
